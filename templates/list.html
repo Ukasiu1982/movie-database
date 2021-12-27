@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div>
+    <div class="row header_wrapper">
+        <div class="col-6  float-left">
+            <h2>{{ context.tmd.username }}</h2>
+        </div>
+        <div class="col-6">
+            <form method='GET' action="{{ url_for('logout') }}">
+                <button class="btn btn-secondary float-right my_btn">Wyloguj</button>
+            </form>
+            <form method='GET' action="{{ url_for('search_movie') }}">
+                <button class="btn btn-secondary float-right my_btn">Dodaj film</button>
+            </form>
+        </div>
+    </div>
+
+    <table class="table">
+        {% if context.movie_list %}
+        <thead>
+            <th>Film</th>
+            <th>Opis</th>
+            <th>średnia ocen</th>
+            <th>usun</th>
+        </thead>
+        <tbody>
+            {% for movie in context.movie_list %}
+            <tr>
+                {% if movie.title %}
+                <td>{{ movie.title }}</td>
+                {% else %}
+                <td>{{ movie.name }}</td>
+                {% endif %}
+                <td>{{ movie.overview }}</td>
+                <td>{{ movie.vote_average }}</td>
+                <td><a href="{{ url_for('remove_movie', movie_id=movie.id) }}">Usuń</a></td>
+            </tr>
+            {% endfor %}
+        {% endif %}
+        </tbody>
+    </table>
+    <button class="btn btn-secondary" onclick="history.back()">powrót</button>
+</div>
+
+{% endblock content %}

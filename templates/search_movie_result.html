@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div>
+    <div class="row header_wrapper">
+        <div class="col-12  float-left">
+            <h2>{{ context.tmd.username }}</h2>
+        </div>
+        <div class="col-12 float-left">
+            <h3>Wynik wyszukiwania dla: "{{ context.query }}"</h3>
+        </div>
+    </div>
+
+    <table class="table">
+        {% if context.search_movie %}
+        <thead>
+            <th>Tytuł</th>
+            <th>Orginalny tytuł</th>
+            <th>Średnia ocen</th>
+            <th>Rok produkcji</th>
+            <th>Dodaj</th>
+        </thead>
+        <tbody>
+            {% for movie in context.search_movie %}
+            <tr>
+                <td>{{ movie.title }}</td>
+                <td>{{ movie.original_title }}</td>
+                <td>{{ movie.vote_average }}</td>
+                <td>{{ movie.release_date }}</td>
+                <td><a href="{{ url_for('add_movie', movie_id=movie.id) }}">Dodaj</a></td>
+            </tr>
+            {% endfor %}
+        {% endif %}
+        </tbody>
+    </table>
+    <button class="btn btn-secondary" onclick="history.back()">powrót</button>
+</div>
+
+{% endblock content %}

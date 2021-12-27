@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div>
+    <div class="row header_wrapper">
+        <div class="col-8  float-left">
+            <h2>{{ context.tmd.username }}</h2>
+            <p>Wybrany region: {{ context.tmd.selected_region }}</p>
+        </div>
+        <div class="col-4">
+            <form method='GET' action="{{ url_for('logout') }}">
+                <button class="btn btn-secondary float-right my_btn">Wyloguj</button>
+            </form>
+            <form method='GET' action="{{ url_for('create_list') }}">
+                <button class="btn btn-secondary float-right my_btn">Stwórz listę</button>
+            </form>
+        </div>
+    </div>
+    <div>
+        <form method="post" action="{{ url_for('select_provider_region')}}">
+            <select name="region" class="form-select" aria-label="Disabled select">
+              <option value="PL">Polska</option>
+              <option value="EN">Anglia</option>
+              <option value="FR">Francja</option>
+              <option value="DE">Niemcy</option>
+              <option value="US">USA</option>
+            </select>
+          <input type="submit" class="fadeIn fourth" value="Ustaw język">
+        </form>
+    </div>
+
+    <table class="table">
+        {% if context.user_lists %}
+        <thead>
+            <th>Lista</th>
+            <th>Ilość filmow</th>
+            <th>Opis</th>
+            <th>Usuń</th>
+        </thead>
+        <tbody>
+            {% for list in context.user_lists %}
+            <tr>
+                <td><a href="{{ url_for('list_detail', list_id=list.id) }}">{{ list.name }}</a></td>
+                <td>{{ list.item_count }}</td>
+                <td>{{ list.description }}</td>
+                <td><a href="{{ url_for('delete_list', list_id=list.id) }}">Usuń</a></td>
+            </tr>
+            {% endfor %}
+        {% endif %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock content %}
